@@ -16,8 +16,13 @@ fi
 # 3. Evolution-X
 # 4. Pixel Experience / Pixel OS
 # 5. VoltageOS
+# 6. ProtonPlus
+# 7. OctaviOS
+# 8. HavocOS
 LINEAGE() {
   echo "LINEAGEOS Choosen!!"
+  sleep 1s
+  echo
   source build/envsetup.sh
   lunch lineage_"$DEVICE"-"$BUILDTYPE"
   make bacon
@@ -25,11 +30,15 @@ LINEAGE() {
 
 AOSPA() {
   echo "AOSPA Choosen!!"
+  sleep 1s
+  echo
   source rom-build.sh "$DEVICE"
 }
 
 EVOLUTION() {
   echo "EVOLUTION-X Choosen!!"
+  sleep 1s
+  echo
   source build/envsetup.sh
   lunch evolution_"$DEVICE"-"$BUILDTYPE"
   m evolution
@@ -37,6 +46,8 @@ EVOLUTION() {
 
 PIXEL() {
   echo "PIXEL Choosen!!"
+  sleep 1s
+  echo
   source build/envsetup.sh
   lunch aosp_"$DEVICE"-"$BUILDTYPE"
   make bacon
@@ -44,17 +55,36 @@ PIXEL() {
 
 VOLTAGE() {
   echo "VoltageOS Choosen!!"
+  sleep 1s
+  echo
   source build/envsetup.sh
   brunch "$DEVICE"
 }
 
 PROTON() {
   echo "ProtonPlus Choosen!!"
+  sleep 1s
+  echo
   source build/envsetup.sh
   lunch "$DEVICE"-"$BUILDTYPE"
   m otapackage
 }
 
+OCTAVI() {
+  echo "OctaviOS Choosen!!"
+  sleep 1s
+  echo
+  source build/envsetup.sh
+  lunch octavi_"$DEVICE"-"$BUILDTYPE"
+  brunch "$DEVICE"
+}
+HAVOC() {
+  echo "HavocOS Choosen!!"
+  sleep 1s
+  echo
+  source build/envsetup.sh
+  brunch "$DEVICE"
+}
 read -p "What's Your Device Name: " DEVICE
 sleep 1s
 echo
@@ -75,6 +105,10 @@ echo "#        voltage       #"
 sleep 1s
 echo "#         proton       #"
 sleep 1s
+echo "#         octavi       #"
+sleep 1s
+echo "#         Havoc        #"
+sleep 1s
 echo "########################"
 sleep 1s
 echo
@@ -94,6 +128,11 @@ elif [ "$ROMNAME" == "voltage" ]; then
         VOLTAGE
 elif [ "$ROMNAME" == "proton" ]; then
         PROTON
+elif [ "$ROMNAME" == "octavi" ]; then
+        OCTAVI
+elif ["$ROMNAME" == "havoc" ]; then
+        HAVOC
 else
         echo "No ROM/Source found. Please ask the administrator to add it!!"
+        exit 1
 fi

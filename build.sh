@@ -17,9 +17,6 @@ done
 read -p "What's Your Device Name: " DEVICE
 sleep 1s
 echo
-read -p "What Buildtype do you want to use? 1.user 2.userdebug 3.eng: " BUILDTYPE
-echo
-sleep 1s
 
 # rom production function when it's going to be called!!!
 ROM_PRODUCTION() {
@@ -134,42 +131,126 @@ ROM_PRODUCTION() {
         banner
 
         # User choice 
-        read -p "What's Your Rom Name: " ROMNAME
+        read -p "What Buildtype do you want to use? [user] , [userdebug] [eng]: " BUILDTYPE
+        echo
+        sleep 1s
         message() {
-                echo "Your Device Name is $DEVICE And You Choose to Build $BUILDTYPE for $ROMNAME"
+                echo "Your Device Name is $DEVICE And You Choose $BUILDTYPE for $ROMNAME"
                 sleep 1s
                 echo
         }
 
-        # Check whether user choice is valid or not!!
-        if [ "$ROMNAME" == "lineage" ]; then
-                message
-                LINEAGE
-        elif [ "$ROMNAME" == "aospa" ]; then
-                message
-                AOSPA
-        elif [ "$ROMNAME" == "evolution" ]; then
-                message
-                EVOLUTION
-        elif [ "$ROMNAME" == "pixel" ]; then
-                message
-                PIXEL
-        elif [ "$ROMNAME" == "voltage" ]; then
-                message
-                VOLTAGE
-        elif [ "$ROMNAME" == "proton" ]; then
-                message
-                PROTON
-        elif [ "$ROMNAME" == "octavi" ]; then
-                message
-                OCTAVI
-        elif ["$ROMNAME" == "havoc" ]; then
-                message
-                HAVOC
-        else
-                echo "No ROM/Source found. Please ask the administrator to add it!!"
-                exit 1
-        fi
+        while true; do
+                read -p "What's Your Rom Name: " ROMNAME
+                echo
+
+                # Check whether user choice is valid or not!!
+                if [ "$ROMNAME" == "lineage" ]; then
+                        clear
+                        message
+                        LINEAGE
+                        break
+                elif [ "$ROMNAME" == "aospa" ]; then
+                        clear
+                        message
+                        AOSPA
+                        break
+                elif [ "$ROMNAME" == "evolution" ]; then
+                        clear
+                        message
+                        EVOLUTION
+                        break
+                elif [ "$ROMNAME" == "pixel" ]; then
+                        clear
+                        message
+                        PIXEL
+                        break
+                elif [ "$ROMNAME" == "voltage" ]; then
+                        clear
+                        message
+                        VOLTAGE
+                        break
+                elif [ "$ROMNAME" == "proton" ]; then
+                        clear
+                        message
+                        PROTON
+                        break
+                elif [ "$ROMNAME" == "octavi" ]; then
+                        clear
+                        message
+                        OCTAVI
+                        break
+                elif [ "$ROMNAME" == "havoc" ]; then
+                        clear
+                        message
+                        HAVOC
+                        break
+                else
+                        echo "No ROM/Source found. Please ask the administrator to add it!!"
+                        echo
+                fi
+        done
+}
+
+RECOVERY_PRODUCTION() {
+
+        echo "You Choosen Recovery building!!"
+        sleep 1s
+        clear
+
+        while true; do
+        read -p "Enter your choice (1 for boot.img, 2 for vendor_boot.img, 3 for recovery.img): " OPTIONS
+
+                if [ "$OPTIONS" = "1" ]; then
+                        echo "boot.img is in Process!!"
+                        sleep 1s
+                        TWRP
+                        mka bootimage
+                        clear
+                        break  # Exit the loop if a valid option is provided
+                elif [ "$OPTIONS" = "2" ]; then
+                        echo "vendor_boot.img is in Process!!"
+                        sleep 1s
+                        TWRP
+                        mka vendorbootimage
+                        clear
+                        break  # Exit the loop if a valid option is provided
+                elif [ "$OPTIONS" = "3" ]; then
+                        echo "Recovery.img is in Process!!"
+                        sleep 1s
+                        TWRP
+                        mka recoveryimage
+                        clear
+                        break  # Exit the loop if a valid option is provided
+                else
+                        echo "Wrong Option!! Please enter 1, 2, or 3."
+                        echo
+                fi
+        done
+
+
+        # Creating database for recovery
+        # 1. TWRP
+        # 2. Orangefox
+        # 3. PitchBlack
+
+        TWRP() {
+                export ALLOW_MISSING_DEPENDENCIES=true;
+                source build/envsetup.sh;
+                lunch twrp_$DEVICE-eng
+        }
+
+        ORANGEFOX() {
+                export ALLOW_MISSING_DEPENDENCIES=true;
+                source build/envsetup.sh;
+                lunch omni_$DEVICE-eng
+        }
+
+        PITCHBLACK() {
+                export ALLOW_MISSING_DEPENDENCIES=true;
+                source build/envsetup.sh;
+                lunch omni_$DEVICE-eng
+        }
 }
 
 # Ask users what's he supposed to build

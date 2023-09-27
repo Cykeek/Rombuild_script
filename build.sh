@@ -18,6 +18,25 @@ read -p "What's Your Device Name: " DEVICE
 sleep 1s
 echo
 
+# Residuals Files!!
+OUT="out/target/product/$DEVICE/"
+if [ -d "$OUT" ]; then
+        read -p "Residual files detected in out/target/product/$DEVICE do you want to delete those files? [y] or [n]: " DELETE
+        if [ "$DELETE" == "y" ]; then
+                echo "<< Cleanup residuals >>"
+                rm -rf $OUT
+                sleep 1s
+                echo
+                echo "<< $OUT is Cleaned >>"
+        else
+                echo "<< Residuals are still there !! >>"
+        fi
+else
+        echo "<< It's already clean >>"
+        sleep 1s
+        echo
+fi
+
 # rom production function when it's going to be called!!!
 ROM_PRODUCTION() {
         # Creating database for ROM build Commands
@@ -131,7 +150,7 @@ ROM_PRODUCTION() {
         banner
 
         # User choice 
-        read -p "What Buildtype do you want to use? [user] , [userdebug] [eng]: " BUILDTYPE
+        read -p "What Buildtype do you want to use? [user] , [userdebug] , [eng]: " BUILDTYPE
         echo
         sleep 1s
         message() {
@@ -146,42 +165,34 @@ ROM_PRODUCTION() {
 
                 # Check whether user choice is valid or not!!
                 if [ "$ROMNAME" == "lineage" ]; then
-                        clear
                         message
                         LINEAGE
                         break
                 elif [ "$ROMNAME" == "aospa" ]; then
-                        clear
                         message
                         AOSPA
                         break
                 elif [ "$ROMNAME" == "evolution" ]; then
-                        clear
                         message
                         EVOLUTION
                         break
                 elif [ "$ROMNAME" == "pixel" ]; then
-                        clear
                         message
                         PIXEL
                         break
                 elif [ "$ROMNAME" == "voltage" ]; then
-                        clear
                         message
                         VOLTAGE
                         break
                 elif [ "$ROMNAME" == "proton" ]; then
-                        clear
                         message
                         PROTON
                         break
                 elif [ "$ROMNAME" == "octavi" ]; then
-                        clear
                         message
                         OCTAVI
                         break
                 elif [ "$ROMNAME" == "havoc" ]; then
-                        clear
                         message
                         HAVOC
                         break
